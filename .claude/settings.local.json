@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --app --eslint --tailwind=false --src-dir=false --import-alias=\"@/*\" --yes)",
+      "Bash(npx create-next-app@latest mbfd-assistant --typescript --app --eslint --tailwind=false --src-dir=false --import-alias=\"@/*\" --yes)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
