@@ -1,7 +1,4 @@
 import type { Metadata } from 'next';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import ThemeRegistry from './components/ThemeRegistry';
 import TopBar from './components/TopBar';
 import './globals.css';
 
@@ -16,16 +13,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <ThemeRegistry>
-          <TopBar />
-          {/* Toolbar spacer pushes content below the fixed AppBar */}
-          <Toolbar />
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            {children}
-          </Box>
-        </ThemeRegistry>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-gray-50">
+        <TopBar />
+        {/* Spacer pushes content below the fixed header */}
+        <div className="h-12" />
+        <main className="mx-auto max-w-300 px-6 py-5">
+          {children}
+        </main>
       </body>
     </html>
   );

@@ -1,65 +1,58 @@
 'use client';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Settings } from 'lucide-react';
+import { Avatar, AvatarFallback } from './ui/avatar';
+import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
+
+const navItems = [
+  { label: 'Concept Document', href: '/concept' },
+];
 
 export default function TopBar() {
-  const [tab, setTab] = useState(0);
+  const pathname = usePathname();
 
   return (
-    <AppBar position="fixed" sx={{ bgcolor: '#fff', color: '#333', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }}>
-      <Toolbar sx={{ minHeight: '48px !important', px: 2, gap: 2 }}>
-        {/* T-Mobile logo */}
-        <Box
-          sx={{
-            bgcolor: '#E20074',
-            color: '#fff',
-            borderRadius: '50%',
-            width: 28,
-            height: 28,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '0.85rem',
-            fontWeight: 700,
-            flexShrink: 0,
-          }}
-        >
-          T
-        </Box>
-        <Typography variant="caption" fontWeight={600} color="#555" sx={{ whiteSpace: 'nowrap', fontSize: '0.78rem' }}>
-          MBfD Assistant
-        </Typography>
+    <header className="fixed top-0 left-0 right-0 z-50 flex h-12 items-center gap-3 border-b border-gray-200 bg-white px-4 shadow-sm">
+      {/* Logo */}
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#E20074] text-xs font-bold text-white">
+        T
+      </div>
 
-        <Tabs
-          value={tab}
-          onChange={(_, v) => setTab(v)}
-          sx={{
-            minHeight: 48,
-            '& .MuiTab-root': { minHeight: 48, fontSize: '0.8rem', textTransform: 'none', py: 0 },
-            '& .MuiTabs-indicator': { bgcolor: '#E20074', height: 3 },
-            '& .Mui-selected': { color: '#E20074 !important' },
-          }}
-        >
-          <Tab label="StartMail" />
-          <Tab label="Concept Document" />
-        </Tabs>
+      <span className="shrink-0 text-[0.78rem] font-semibold text-gray-500">MBfD Assistant</span>
 
-        <Box sx={{ flexGrow: 1 }} />
+      {/* Nav tabs */}
+      <nav className="flex h-full items-end gap-0">
+        {navItems.map(({ label, href }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                'relative flex h-12 items-center px-3 text-[0.8rem] transition-colors no-underline',
+                isActive
+                  ? 'text-[#E20074] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#E20074]'
+                  : 'text-gray-600 hover:text-gray-900'
+              )}
+            >
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
 
-        <IconButton size="small">
-          <SettingsIcon sx={{ fontSize: 18, color: '#666' }} />
-        </IconButton>
-        <Avatar sx={{ width: 28, height: 28, bgcolor: '#E20074', fontSize: '0.75rem' }}>JD</Avatar>
-      </Toolbar>
-    </AppBar>
+      <div className="flex-1" />
+
+      <Button variant="ghost" size="icon" className="h-8 w-8">
+        <Settings className="h-[18px] w-[18px] text-gray-500" />
+      </Button>
+
+      <Avatar>
+        <AvatarFallback>JD</AvatarFallback>
+      </Avatar>
+    </header>
   );
 }
